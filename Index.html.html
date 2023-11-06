@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Caesar Cipher Double Key Encryption/Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: whitesmoke;
+            text-align: center;
+        }
+
+        h2 {
+            color: #ffffff;
+            padding: 10px;
+            background-color: #0056b3;
+        }
+
+        label {
+            margin: 10px;
+            font-size: 32px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 10px 20px;
+            margin: 10px;
+        }
+
+        button {
+            background-color: #0074d9;
+            color: #fff;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 15px 35px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            font-weight: bold;
+            margin: 20px;
+            background-color: rgb(255, 225, 0);
+            padding: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Caesar Cipher Double Key Encryption/Decryption</h2>
+    <label for="text" >Add Message:</label>
+    <input type="text" id="text" style="width: 250px;"/>
+    <br/>
+    <label for="encryptionKey1" style="font-size: 24px;">Key A (1-25):</label>
+    <input type="number" id="Key1" style=" width: 20px;"/>
+    <label for="encryptionKey2" style="font-size: 24px;">Key B (1-25):</label>
+    <input type="number" id="Key2" style=" width: 20px;"/>
+    <br />
+    <button onclick="encrypt()">Encrypt</button>
+    <button onclick="decrypt()">Decrypt</button>
+    <p>Result: <span id="result"></span></p>
+
+    <script>
+        function caesarCipher(text, key1, key2) {
+            let result = "";
+            for (let i = 0; i < text.length; i++) {
+                const char = text.charAt(i);
+                if (char.match(/[A-Za-z]/)) {
+                    const isUpper = char === char.toUpperCase();
+                    const offset = isUpper ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+                    const shiftedChar = String.fromCharCode(((char.charCodeAt(0) - offset + key1) % 26) + offset);
+                    const shiftedChar2 = String.fromCharCode(((shiftedChar.charCodeAt(0) - offset + key2) % 26) + offset);
+                    result += shiftedChar2;
+                } else {
+                    result += char;
+                }
+            }
+            return result;
+        }
+
+        function encrypt() {
+            const text = document.getElementById("text").value;
+            const encryptionKey1 = parseInt(document.getElementById("Key1").value);
+            const encryptionKey2 = parseInt(document.getElementById("Key2").value);
+            const encryptedText = caesarCipher(text, encryptionKey1, encryptionKey2);
+            document.getElementById("result").textContent = encryptedText;
+        }
+
+        function decrypt() {
+            const text = document.getElementById("text").value;
+            const decryptionKey1 = parseInt(document.getElementById("Key1").value);
+            const decryptionKey2 = parseInt(document.getElementById("Key2").value);
+            const decryptedText = caesarCipher(text, 26 - decryptionKey1, 26 - decryptionKey2);
+            document.getElementById("result").textContent = decryptedText;
+        }
+
+    </script>
+</body>
+
+</html>
